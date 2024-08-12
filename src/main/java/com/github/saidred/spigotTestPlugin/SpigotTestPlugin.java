@@ -6,6 +6,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SpigotTestPlugin extends JavaPlugin {
@@ -16,6 +19,7 @@ public final class SpigotTestPlugin extends JavaPlugin {
   public void onEnable() {
     // イベントサンプル
     getServer().getPluginManager().registerEvents(new testEvent(),this);
+//    getServer().getPluginManager().registerEvents(new onPlayerInteract(),this);
     // コマンドサンプル
     getCommand("test").setExecutor(new testCommand());
   }
@@ -27,8 +31,14 @@ public final class SpigotTestPlugin extends JavaPlugin {
       // テストイベント
       getLogger().info("<< EVENT TEST LOG END >>");
     }
-  }
 
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+      ItemStack itemMainHand = event.getItem();
+      FireworkMeta fireworkMeta = (FireworkMeta) itemMainHand.getItemMeta();
+      plugin.getLogger().info("power:" + fireworkMeta.getPower());
+    }
+  }
   public static class testCommand implements CommandExecutor {
 
     @Override
