@@ -1,14 +1,22 @@
 package com.github.saidred.spigotTestPlugin;
 
+import java.util.ArrayList;
+import java.util.Objects;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
+import org.bukkit.block.sign.Side;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SpigotTestPlugin extends JavaPlugin {
@@ -34,9 +42,22 @@ public final class SpigotTestPlugin extends JavaPlugin {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-      ItemStack itemMainHand = event.getItem();
-      FireworkMeta fireworkMeta = (FireworkMeta) itemMainHand.getItemMeta();
-      plugin.getLogger().info("power:" + fireworkMeta.getPower());
+
+      try {
+        Player player = event.getPlayer();
+        plugin.getLogger().info("●getGameMode:" + event.getPlayer().getGameMode());
+        plugin.getLogger().info("●isSneaking:" + event.getPlayer().isSneaking());
+        plugin.getLogger().info("●getHand:" + event.getHand());
+
+        ItemStack item = new ItemStack(Material.ACACIA_SIGN);
+        ItemMeta meta = item.getItemMeta();
+        Objects.requireNonNull(meta).setDisplayName("TestSign");
+        item.setItemMeta(meta);
+        player.getInventory().setItemInMainHand(item);
+        plugin.getLogger().info("●items:" + item);
+      } catch (Exception e) {
+
+      }
     }
   }
   public static class testCommand implements CommandExecutor {
