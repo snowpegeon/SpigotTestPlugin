@@ -1,5 +1,6 @@
 package com.github.saidred.spigotTestPlugin;
 
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -34,9 +35,15 @@ public final class SpigotTestPlugin extends JavaPlugin {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-      ItemStack itemMainHand = event.getItem();
-      FireworkMeta fireworkMeta = (FireworkMeta) itemMainHand.getItemMeta();
-      plugin.getLogger().info("power:" + fireworkMeta.getPower());
+      try{
+        ItemStack itemMainHand = event.getItem();
+        ItemStack item = new ItemStack(Material.FIREWORK_ROCKET);
+        ((FireworkMeta)item.getItemMeta()).setPower(1);
+        FireworkMeta fireworkMeta = (FireworkMeta) itemMainHand.getItemMeta();
+        plugin.getLogger().info("isSimilarPower1:" + itemMainHand.isSimilar(item));
+      } catch (Exception e) {
+
+      }
     }
   }
   public static class testCommand implements CommandExecutor {
